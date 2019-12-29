@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Okuduğum Kitaplar</title>
+    <style>
+        .header{
+            font-size: 12px;
+            padding: 20px;
+            color: rebeccapurple;
+        }
+        @media screen and (max-width: 1875px) {
+            .header input{
+                display: block;
+                color: rebeccapurple;
+                float: none;
+                padding: 10px;
+                border: blue;
+            }
+        }
+        .tablo{
+            font-family: "Courier New";
+        }
+    </style>
+</head>
+<body>
+{% if request.user.is_authenticated %}
+<form method="post" style="border-bottom: brown" enctype="multipart/form-data">
+    <div class="header">
+        {% csrf_token %}
+        <label for="{{ form.isim.id_for_label }}">İsim:</label>
+        <input type="text" name="{{ form.isim.html_name }}" id="{{ form.isim.id_for_label }}">
+
+        <label for="{{ form.yazar.id_for_label }}">Yazar:</label>
+        <input type="text" name="{{ form.yazar.html_name }}" id="{{ form.yazar.id_for_label }}">
+
+        <label for="{{ form.konu.id_for_label }}">Konu:</label>
+        <input type="text" name="{{ form.konu.html_name }}" id="{{ form.konu.id_for_label }}">
+
+        <label for="{{ form.notlarim.id_for_label }}">Notlarım:</label>
+        <textarea name="{{ form.notlarim.html_name }}" id="{{ form.notlarim.id_for_label }}"></textarea>
+
+        <label for="{{ form.yayinevi.id_for_label }}">Yayın Evi:</label>
+        <textarea name="{{ form.yayinevi.html_name }}" id="{{ form.yayinevi.id_for_label }}"></textarea>
+
+        <label for="{{ form.okudugum_sene.id_for_label }}">Okuduğum Tarih:</label>
+        <input type="date" name="{{ form.okudugum_sene.html_name }}" id="{{ form.okudugum_sene.id_for_label }}">
+
+        <label for="{{ form.basim_yili.id_for_label }}">Kitabın Basım Yılı:</label>
+        <input type="date" name="{{ form.basim_yili.html_name }}" id="{{ form.basim_yili.id_for_label }}">
+
+        <label for="{{ form.pdf.id_for_label }}">Kitap PDF(Eğer Varsa):</label>
+        <input type="file" name="{{ form.pdf.html_name }}" id="{{ form.pdf.id_for_label }}">
+
+        <input type="submit">
+    </div>
+</form>
+{% endif %}
+<div class="tablo">
+    <table align="center" border cellpadding="15px">
+
+    <tr>
+        <th>İsim</th>
+        <th>Yazar</th>
+        <th>Konu</th>
+        <th>Notlarım</th>
+        <th>Yayın Evi</th>
+        <th>Okuduğum Tarih</th>
+        <th>Basım Yılı</th>
+        <th>Siteye Eklenme Tarihi</th>
+        <th>PDF</th>
+    </tr>
+    {% for kitap in kitaplarim %}
+    <tr>
+
+            <td>{{ kitap.isim }}</td>
+            <td>{{ kitap.yazar }}</td>
+            <td>{{ kitap.konu }}</td>
+            <td>{{ kitap.notlarim }}</td>
+            <td>{{ kitap.yayinevi }}</td>
+            <td>{{ kitap.okudugum_sene }}</td>
+            <td>{{ kitap.basim_yili }}</td>
+            <td>{{ kitap.eklenme_tarihi }}</td>
+            <td><a href="../uploads/{{ kitap.pdf }}">{{ kitap.pdf }}</a></td>
+
+    </tr>
+    {% endfor %}
+    </table>
+</div>
+</body>
+</html>
