@@ -1,9 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Okuduğum Kitaplar</title>
+    <link href="https://fonts.googleapis.com/css?family=Kulim+Park|Source+Sans+Pro&display=swap" rel="stylesheet">
     <style>
+        .kulim{
+            font-family: 'Kulim Park', sans-serif;
+        }
+        .sourcesanspro{
+            font-family: 'Source Sans Pro', sans-serif;
+        }
         .header{
             font-size: 12px;
             padding: 20px;
@@ -21,45 +29,62 @@
         .tablo{
             font-family: "Courier New";
         }
+        .bged{
+            background: url("{% static 'emre-ozturk-lfyKGQWEbew-unsplash.jpg' %}");
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-color:#464646;
+        }
     </style>
 </head>
-<body>
-{% if request.user.is_authenticated %}
-<form method="post" style="border-bottom: brown" enctype="multipart/form-data">
-    <div class="header">
+<body class="bged">
+
+<div class="sourcesanspro">
+
+    {% if request.user.is_authenticated %}
+    <form method="post" enctype="multipart/form-data" class="sourcesanspro">
+        <table align="center" border cellpadding="12px" bgcolor="#1B212D" class="sourcesanspro" style="color: #ffc107">
         {% csrf_token %}
-        <label for="{{ form.isim.id_for_label }}">İsim:</label>
-        <input type="text" name="{{ form.isim.html_name }}" id="{{ form.isim.id_for_label }}">
-
-        <label for="{{ form.yazar.id_for_label }}">Yazar:</label>
-        <input type="text" name="{{ form.yazar.html_name }}" id="{{ form.yazar.id_for_label }}">
-
-        <label for="{{ form.konu.id_for_label }}">Konu:</label>
-        <input type="text" name="{{ form.konu.html_name }}" id="{{ form.konu.id_for_label }}">
-
-        <label for="{{ form.notlarim.id_for_label }}">Notlarım:</label>
-        <textarea name="{{ form.notlarim.html_name }}" id="{{ form.notlarim.id_for_label }}"></textarea>
-
-        <label for="{{ form.yayinevi.id_for_label }}">Yayın Evi:</label>
-        <textarea name="{{ form.yayinevi.html_name }}" id="{{ form.yayinevi.id_for_label }}"></textarea>
-
-        <label for="{{ form.okudugum_sene.id_for_label }}">Okuduğum Tarih:</label>
-        <input type="date" name="{{ form.okudugum_sene.html_name }}" id="{{ form.okudugum_sene.id_for_label }}">
-
-        <label for="{{ form.basim_yili.id_for_label }}">Kitabın Basım Yılı:</label>
-        <input type="date" name="{{ form.basim_yili.html_name }}" id="{{ form.basim_yili.id_for_label }}">
-
-        <label for="{{ form.pdf.id_for_label }}">Kitap PDF(Eğer Varsa):</label>
-        <input type="file" name="{{ form.pdf.html_name }}" id="{{ form.pdf.id_for_label }}">
-
-        <input type="submit">
-    </div>
-</form>
-{% endif %}
-<div class="tablo">
-    <table align="center" border cellpadding="15px">
-
-    <tr>
+            <tr>
+                <th>
+                    <input  class="kulim" type="text" name="{{ form.isim.html_name }}" id="{{ form.isim.id_for_label }}" placeholder="İsim">
+                </th>
+                <th>
+                    <input class="kulim" type="text" name="{{ form.yazar.html_name }}" id="{{ form.yazar.id_for_label }}" placeholder="Yazar">
+                </th>
+                <th>
+                    <input class="kulim" type="text" name="{{ form.konu.html_name }}" id="{{ form.konu.id_for_label }}" placeholder="Konu">
+                </th>
+                <th>
+                    <textarea class="kulim" name="{{ form.notlarim.html_name }}" id="{{ form.notlarim.id_for_label }}" placeholder="Notlarım"></textarea>
+                </th>
+                <th>
+                    <input class="kulim" name="{{ form.yayinevi.html_name }}" id="{{ form.yayinevi.id_for_label }}" type="text" placeholder="Yayın Evi">
+                </th>
+                <th>
+                    <input class="kulim" type="date" name="{{ form.okudugum_sene.html_name }}" id="{{ form.okudugum_sene.id_for_label }}">
+                </th>
+                <th>
+                    <input class="kulim" type="date" name="{{ form.basim_yili.html_name }}" id="{{ form.basim_yili.id_for_label }}" placeholder="Kitap Basım Yılı">
+                </th>
+                <th>
+                    <input class="kulim" type="file" name="{{ form.pdf.html_name }}" id="{{ form.pdf.id_for_label }}">
+                </th>
+                <th>
+                    <input class="kulim" type="submit">
+                </th>
+            </tr>
+            </table>
+        </form>
+    {% endif %}
+</div>
+<br>
+<br>
+<table align="center" border="#ffc107;" bgcolor="#1B212D" class="kulim" cellpadding="12px" style="color:  #ffffff;">
+    <tr style="color: #ffc107;">
+        <th>#</th>
         <th>İsim</th>
         <th>Yazar</th>
         <th>Konu</th>
@@ -72,7 +97,7 @@
     </tr>
     {% for kitap in kitaplarim %}
     <tr>
-
+            <td>{{ kitap.id }}</td>
             <td>{{ kitap.isim }}</td>
             <td>{{ kitap.yazar }}</td>
             <td>{{ kitap.konu }}</td>
@@ -81,8 +106,7 @@
             <td>{{ kitap.okudugum_sene }}</td>
             <td>{{ kitap.basim_yili }}</td>
             <td>{{ kitap.eklenme_tarihi }}</td>
-            <td><a href="../uploads/{{ kitap.pdf }}">{{ kitap.pdf }}</a></td>
-
+            <td><a style="color: #ffc107;"  href="../uploads/{{ kitap.pdf }}">{{ kitap.pdf }}</a></td>
     </tr>
     {% endfor %}
     </table>

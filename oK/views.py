@@ -25,5 +25,5 @@ class Okudugum_Kitaplar(FormView):
 
     def get_context_data(self, **kwargs):
         context = super(Okudugum_Kitaplar, self).get_context_data(**kwargs)
-        context["kitaplarim"] = Kitaplar.objects.all()
+        context["kitaplarim"] = Kitaplar.objects.all().order_by("-eklenme_tarihi")
         return context
